@@ -1,0 +1,26 @@
+services:
+  as:
+    build: ./AS
+    image: harbor302/dcn-lab3-as:latest
+    ports:
+      - "127.0.0.1:53533:53533/udp"
+    volumes:
+      - records:/data
+  fs:
+    build: ./FS
+    image: harbor302/dcn-lab3-fs:latest
+    ports:
+      - "127.0.0.1:9090:9090"
+    depends_on:
+      - as
+  us:
+    build: ./US
+    image: harbor302/dcn-lab3-us:latest
+    ports:
+      - "127.0.0.1:8080:8080"
+    depends_on:
+      - as
+      - fs
+
+volumes:
+  records:
